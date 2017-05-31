@@ -1,0 +1,32 @@
+在attrs.xml中加入
+
+    <declare-styleable name="BootPage">
+        <attr name="indicator_roundCircleColor" format="color"/>
+        <attr name="indicator_centralCircleNormalColor" format="color"/>
+        <attr name="indicator_currentCircleColor" format="color"/>
+        <attr name="centralCircleRadius" format="float"/>
+        <attr name="roundCircleRadius" format="float"/>
+        <attr name="interval" format="float"/>
+        <attr name="displayIndicator" format="boolean"/>
+    </declare-styleable>
+
+///////////////////////////////////////////////////////////////////////////////////////
+布局写法 
+
+<me.zhaoliufeng.myviews.BootPage
+        app:displayIndicator="true"
+        app:indicator_currentCircleColor="#88ee00"
+        app:indicator_centralCircleNormalColor="#eee"
+        app:indicator_roundCircleColor="#8000"
+        app:roundCircleRadius="7"
+        app:centralCircleRadius="5"
+        app:interval="50"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout/>
+         
+
+        <View/>
+
+</me.zhaoliufeng.myviews.BootPage>
