@@ -1,0 +1,19 @@
+在attrs.xml文件加入
+<declare-styleable name="Histogram">
+        <attr name="histogramWidth" format="float"/><!--柱状图线宽 默认30-->
+        <attr name="histogramSpetaWidth" format="float"/><!--柱状图线间距 默认30-->
+        <attr name="histogramWordSpeta" format="float"/><!--字间距 默认30-->
+        <attr name="histogramRightMoveSpeta" format="float"/><!--右移距离 默认50-->
+        <attr name="histogram_animation_speed" format="integer"><!--动画速度 默认mid-->
+            <flag name="fast" value="10"/>
+            <flag name="mid" value="20"/>
+            <flag name="slow" value="50"/>
+        </attr>
+</declare-styleable>
+
+/////////////////////////////////////////////////////////////////////////////
+
+Histogram histogram = findViewById();
+int[] data = {值, 值, 值};
+String[] titles = {"字符串", "字符串", "字符串"};
+histogram.setHistogramData(data, titles);

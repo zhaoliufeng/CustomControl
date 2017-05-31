@@ -1,0 +1,17 @@
+在attrs.xml中加入
+
+    <declare-styleable name="DrawerPlusLayout">
+        <attr name="leftMenuOffsetDistance" format="dimension"/><!--抽屉偏移量-->
+        <attr name="leftMenuWidthScale" format="float"/><!--抽屉菜单的百分比-->
+        <attr name="leftMenuTopOffsetDistance" format="dimension"/><!--菜单顶部向下偏移量-->
+    </declare-styleable>
+
+///////////////////////////////////////////////////////////////////////////////////////
+布局文件
+
+<DrwaerPlusLayout>
+	<!—中间主体布局-->
+	<FrameLayout/>
+	<!—侧拉菜单布局-->
+	<FrameLayout/>
+</ DrwaerPlusLayout>
