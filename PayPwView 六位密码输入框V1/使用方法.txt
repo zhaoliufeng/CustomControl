@@ -1,0 +1,20 @@
+在attrs.xml中加入
+
+    <declare-styleable name="PayPwView">
+        <attr name="pw_num" format="integer"/>
+    </declare-styleable>
+
+///////////////////////////////////////////////////////////////////////////////////////
+布局写法 
+
+    <me.zhaoliufeng.myviews.PayPwView
+        android:id="@+id/ppv"
+        app:pw_num="6"
+        android:inputType="number"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+///////////////////////////////////////////////////////////////////////////////////////
+可使用setOnFinishInputListener()设置输入完成的事件监听
