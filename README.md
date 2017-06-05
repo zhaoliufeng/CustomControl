@@ -10,5 +10,5 @@ zhaoliufeng.me/CustomControl
 5.NumTexView 数字增长控件
 6.DashBoardView 仪表盘控件
 
-![image](https://github.com/zhaoliufeng/CustomControl/tree/master/PayPwView%20%E5%85%AD%E4%BD%8D%E5%AF%86%E7%A0%81%E8%BE%93%E5%85%A5%E6%A1%86V1/ScreenShoot/payview.gif)
+![image](https://github.com/zhaoliufeng/CustomControl/blob/master/PayPwView%20六位密码输入框V1/ScreenShoot/payview.gif)
 每个控件中有对应的使用说明， 故不做demo
