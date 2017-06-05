@@ -1,0 +1,24 @@
+在attrs.xml文件加入
+<declare-styleable name="DashboardView">
+     <attr name="DashBoardViewStyle" format="integer"/><!--车辆速度码表样式 大 小-->
+</declare-styleable>
+
+/////////////////////////////////////////////////////////////////////////////
+
+布局文件
+
+<DashboardView
+   	app:DashBoardViewStyle="1"/>
+
+视图初始化完成之后 将数据数组以如下方式传入
+
+	animator = ObjectAnimator.ofInt(small_dashboard, "mRealTimeValue",
+                            small_dashboard.getVelocity(), "速度值");
+ 	animator.setDuration(1500).setInterpolator(new LinearInterpolator());
+	animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    	@Override
+ 	public void onAnimationUpdate(ValueAnimator animation) {
+    			int value = (int) animation.getAnimatedValue();
+           		small_dashboard.setVelocity(value);
+      		}
+	});
