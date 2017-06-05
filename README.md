@@ -6,7 +6,11 @@ zhaoliufeng.me/CustomControl
 1.LineChart 纵向增长柱状图 <br>
 2.Histogram 横向增长柱状图<br>
 3.DrawerPlusLayout 自定义侧拉控件<br>
+![image](https://github.com/zhaoliufeng/CustomControl/blob/master/DrawerPlusLayout%20自定义侧拉V1/ScreenShoot/drawerplus.gif)<br>
+
 4.BootPage 引导侧滑页<br>
+![image](https://github.com/zhaoliufeng/CustomControl/blob/master/BootPage%20引导侧滑页V1/ScreenShoot/bootpage.gif)<br>
+
 5.NumTexView 数字增长控件<br>
 ![image](https://github.com/zhaoliufeng/CustomControl/blob/master/NumTextView%20数字增长V1/ScreenShoot/numview.gif)<br>
 
