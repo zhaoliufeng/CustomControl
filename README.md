@@ -1,7 +1,7 @@
 # CustomControl
 zhaoliufeng.me/CustomControl
 
-平时项目中使用到自订控件，包括：
+平时想到就做了的自定义控件，一是锻炼自己的开发能力，二是为之后项目开发做准备，目前已有：
 
 1.LineChart 纵向增长柱状图 <br>
 ![image](https://github.com/zhaoliufeng/CustomControl/blob/master/LineChart%20纵向增长柱形图V1/ScreenShoot/linechart.gif)<br>
