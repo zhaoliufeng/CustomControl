@@ -24,4 +24,7 @@ zhaoliufeng.me/CustomControl
 7.PayPwView 支付密码输入框<br>
 ![image](https://github.com/zhaoliufeng/CustomControl/blob/master/PayPwView%20六位密码输入框V1/ScreenShoot/payview.gif)<br>
 
+8.ItemMask 子视图凸显遮菜单<br>
+![image](https://github.com/zhaoliufeng/CustomControl/blob/master/ItemMask%20子视图凸显遮菜单V1/ScreenShoot/itemmask.gif)<br>
+
 `每个控件中有对应的使用说明， 故不做demo`
