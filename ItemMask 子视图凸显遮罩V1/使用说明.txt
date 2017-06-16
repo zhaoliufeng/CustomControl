@@ -1,0 +1,7 @@
+针对列表进行使用（其他需求可以自己进行调整，毕竟是开源的）
+
+在xml布局文件中使用FrameLayout帧布局 嵌套需要进行操作的listView 以及ItemMask ItemMask的大小设置成与listView相同
+在Activity初始化控件实例后，为listView增加两个事件监听 （Tounch,Click（listView中的ItemSelect），touch是为了获取点击时候的位置坐标，为菜单的显示做判断， click是为获取当前选中的是哪个View）
+初始化完成并增加监听之后，在onTouch方法中调用控件中的showMenu函数
+传入点击的坐标x(event.x), 坐标y， 以及需要显示的菜单名称String[]
+不建议过长的String[]数组，建议控制在3个（为了看起来不会一大堆。）
