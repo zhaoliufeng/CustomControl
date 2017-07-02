@@ -1,4 +1,4 @@
-package me.zhaoliufeng.myviews;
+package me.zhaoliufeng.customviews.BootPage;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -13,12 +13,14 @@ import android.widget.FrameLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.zhaoliufeng.customviews.R;
+
 public class BootPage extends FrameLayout implements View.OnTouchListener {
 
     //View数组用于存储显示的视图
     private List<View> views = new ArrayList<>();
     //当前的页数
-    private int pageNum = 0;
+    private int mPageNum = 0;
     //页数指示器
     private Indicator indicator;
     //屏幕宽度 用于计算PageNumber
@@ -29,6 +31,8 @@ public class BootPage extends FrameLayout implements View.OnTouchListener {
     private float roundCircleRadius, centralCircleRadius, interval;
     //是否显示指示器
     private boolean displayIndicator;
+    //切换页面监听
+    private OnPageChangeListener mOnPageChangeListener;
 
     public BootPage(Context context) {
         super(context);
@@ -53,6 +57,9 @@ public class BootPage extends FrameLayout implements View.OnTouchListener {
         }
     }
 
+    public int getPageNum(){
+        return mPageNum;
+    }
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
@@ -111,7 +118,7 @@ public class BootPage extends FrameLayout implements View.OnTouchListener {
                 //下次X的位置
                 float nextX = views.get(0).getX() - distanceX;
                 float nextLx = views.get(views.size()-1).getX() - distanceX;
-                pageNum = (int)(Math.abs(nextX)/this.getWidth());
+                mPageNum = (int)(Math.abs(nextX)/this.getWidth());
                 //如果第一个视图的x为0 则判断是第一页右移不做处理
                 if (nextX > 0.0f){
                     //如果是左移 则不做处理
@@ -134,15 +141,15 @@ public class BootPage extends FrameLayout implements View.OnTouchListener {
                 break;
             case MotionEvent.ACTION_UP:
                 //判断手指离开时第当前视图的x位置大于屏幕的一般时,  左移
-                if (views.get(pageNum).getX() > - getWidth()/2){
+                if (views.get(mPageNum).getX() > - getWidth()/2){
                     for (int i = 0; i < views.size(); i++){
-                        ObjectAnimator.ofFloat(views.get(i), "x", views.get(i).getX(), (i - pageNum) * getWidth())
+                        ObjectAnimator.ofFloat(views.get(i), "x", views.get(i).getX(), (i - mPageNum) * getWidth())
                                 .setDuration(200)
                                 .start();
                     }
-                }else if (views.get(pageNum).getX() <= -getWidth()/2){
+                }else if (views.get(mPageNum).getX() <= -getWidth()/2){
                     for (int i = 0; i < views.size(); i++) {
-                        ObjectAnimator.ofFloat(views.get(i), "x", views.get(i).getX(), (i-1-pageNum) * getWidth())
+                        ObjectAnimator.ofFloat(views.get(i), "x", views.get(i).getX(), (i-1- mPageNum) * getWidth())
                                 .setDuration(200)
                                 .start();
                     }
@@ -161,10 +168,19 @@ public class BootPage extends FrameLayout implements View.OnTouchListener {
             switch (msg.what){
                 case 0:
                     //动画之后完后判断现在在第几页（ 第一视图的x取绝对值 / 屏宽 ）及 第 i + 1页
-                    pageNum = (int)(Math.abs(views.get(0).getX())/screenWidth);
-                    indicator.setSelectPosition(pageNum);
+                    mPageNum = (int)(Math.abs(views.get(0).getX())/screenWidth);
+                    indicator.setSelectPosition(mPageNum);
+                    if (mOnPageChangeListener != null)
+                        mOnPageChangeListener.onPageChange(mPageNum);
                     break;
             }
         }
     };
+
+    public void setOnPageChangeListener(OnPageChangeListener onPageChangeListener){
+        mOnPageChangeListener = onPageChangeListener;
+    }
+    public interface OnPageChangeListener{
+        void onPageChange(int index);
+    }
 }

@@ -1,4 +1,4 @@
-package me.zhaoliufeng.vehiclemanagesystem.View.Control;
+package me.zhaoliufeng.customviews.Chart;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,12 +8,12 @@ import android.graphics.RectF;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import me.zhaoliufeng.vehiclemanagesystem.R;
+import me.zhaoliufeng.customviews.R;
+
 
 public class Histogram extends View {
 
@@ -40,6 +40,8 @@ public class Histogram extends View {
     private int letRoundRectSpeta;
     //每个柱状图的最大长度
     private int[] rectLength;
+    //柱状图颜色
+    private int mColor;
 
     public Histogram(Context context) {
         super(context);
@@ -48,7 +50,6 @@ public class Histogram extends View {
 
     public Histogram(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initView();
         TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.Histogram);
 
         //读取界面配置参数
@@ -56,6 +57,8 @@ public class Histogram extends View {
         wordSpeta = arr.getFloat(R.styleable.Histogram_histogramWordSpeta, 30);
         rightMoveSpeta = arr.getFloat(R.styleable.Histogram_histogramRightMoveSpeta,50);
         animationSpeed = arr.getInt(R.styleable.Histogram_histogram_animation_speed, 20);
+        mColor = arr.getColor(R.styleable.Histogram_histogram_color, 0xFFFFFFFF);
+        initView();
     }
 
     private void initView(){
@@ -65,7 +68,8 @@ public class Histogram extends View {
         mPaint.setAntiAlias(true);
         //设置圆角笔触风格
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setColor(mColor);
         letRoundRectSpeta = 20;
     }
 
@@ -82,8 +86,10 @@ public class Histogram extends View {
                 maxFlag = i;
             }
         }
+
         //根据屏幕宽度计算最大长度 = 屏宽 * 0.6
-        maxLength = (int)(getWidth()*0.6);
+        if (getWidth() != 0)
+             maxLength = (int)(getWidth()*0.6);
 
         this.titles = titles;
         this.dataSource = dataSource;
@@ -95,11 +101,22 @@ public class Histogram extends View {
 
         //计算所需柱状图数量
         int sn = dataSource.length*2 - 1;
-        spetaWidth = (getHeight() - 2*(letRoundRectSpeta+15))/sn; //上下各自留出20 + 15的区域
+        if (getHeight() != 0)
+             spetaWidth = (getHeight() - 2*(letRoundRectSpeta+15))/sn; //上下各自留出20 + 15的区域
         Log.i("Histogram 初始化位置信息", "柱状图之间的距离 " + spetaWidth + "\n单个柱状图高度 " + getHeight() + "\n所需柱状间隔数量 " + sn);
         Log.i("Histogram", "柱状图数据加载完成, 执行动画");
 
         startAnimation();
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        maxLength = (int)(MeasureSpec.getSize(widthMeasureSpec) * 0.6);
+        //计算所需柱状图数量
+        int sn = dataSource.length*2 - 1;
+
+        spetaWidth = (MeasureSpec.getSize(heightMeasureSpec) - 2*(letRoundRectSpeta+15))/sn; //上下各自留出20 + 15的区域
     }
 
     @Override
@@ -108,8 +125,6 @@ public class Histogram extends View {
 
         //左侧竖线宽度
         int letRoundRectWidth = 7;
-        mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_light));
 
         //绘制左边竖线
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -132,9 +147,9 @@ public class Histogram extends View {
             //绘制文字
             mPaint.setTextSize(25);
             String text = titles[i];
-            canvas.drawText(text, rectLength[i] + rightMoveSpeta + wordSpeta, topY+(i*(2*spetaWidth))+spetaWidth - 5, mPaint);
+            canvas.drawText(text, rectLength[i] + rightMoveSpeta + wordSpeta, topY+(i*(2*spetaWidth))+spetaWidth - spetaWidth/2 - mPaint.ascent()/2, mPaint);
             String number = String.valueOf(dataSource[i]);
-            canvas.drawText(number, rectLength[i] + rightMoveSpeta + wordSpeta*2 + 140, topY+(i*(2*spetaWidth))+spetaWidth - 5, mPaint);
+            canvas.drawText(number, rectLength[i] + rightMoveSpeta + wordSpeta + mPaint.measureText(text) , topY+(i*(2*spetaWidth))+spetaWidth - spetaWidth/2 - mPaint.ascent()/2, mPaint);
         }
     }
 

@@ -1,4 +1,4 @@
-package me.zhaoliufeng.vehiclemanagesystem.View.Control;
+package me.zhaoliufeng.customviews.Chart;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,7 +12,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import me.zhaoliufeng.vehiclemanagesystem.R;
+import me.zhaoliufeng.customviews.R;
 
 
 public class LineChart extends View{
@@ -29,8 +29,9 @@ public class LineChart extends View{
 
     private String[] xTitleString ; // x轴刻度
     private String[] yTitleString; // y轴刻度
-    //动画速度
-    private int animationSpeed;
+
+    private int mAnimationSpeed;     //动画速度 默认20
+    private int mDataColor;  //数据柱形图颜色 默认绿色 0xFF50D795
 
     private int num = -1; // 画多少条柱子，因为存在刚开机数据不足24条的情况
 
@@ -40,14 +41,14 @@ public class LineChart extends View{
 
     public LineChart(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
         TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.LineChart);
-
         //读取界面配置参数
-        animationSpeed = arr.getInt(R.styleable.LineChart_linechart_animation_speed, 20);
+        mAnimationSpeed = arr.getInt(R.styleable.LineChart_linechart_animation_speed, 20);
+        mDataColor = arr.getColor(R.styleable.LineChart_linechart_data_color, 0xFF50D795);
+        initView();
     }
 
-    private void init() {
+    private void initView() {
         linePaint = new Paint();
         recPaint = new Paint();
         dataPaint = new Paint();
@@ -55,7 +56,7 @@ public class LineChart extends View{
 
         linePaint.setColor(Color.parseColor("#dbdde4"));  //设置坐标轴的颜色为白色
         recPaint.setColor(Color.parseColor("#f2f5fc"));
-        dataPaint.setColor(getResources().getColor(R.color.colorAccent));
+        dataPaint.setColor(mDataColor);
         textPaint.setColor(Color.parseColor("#000000"));
         textPaint.setTextSize(9);
 
@@ -167,12 +168,12 @@ public class LineChart extends View{
             public void run() {
                 while (data[flag] < maxValue){
                     try {
-                        Thread.sleep(animationSpeed);
+                        Thread.sleep(mAnimationSpeed);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     if (!isPayingAnimation){
-                        handler.sendEmptyMessageDelayed(0, animationSpeed);
+                        handler.sendEmptyMessageDelayed(0, mAnimationSpeed);
                         isPayingAnimation = true;
                     }
                 }

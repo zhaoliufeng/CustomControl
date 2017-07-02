@@ -1,7 +1,13 @@
 在attrs.xml中加入
 
     <declare-styleable name="PayPwView">
-        <attr name="pw_num" format="integer"/>
+       <attr name="pw_num" format="integer"/>
+        <attr name="current_rect_color" format="color"/>
+        <attr name="pw_cirle_color" format="color"/>
+        <attr name="pw_cirle_radius" format="integer"/>
+        <attr name="pw_split_line_width" format="integer"/>
+        <attr name="pw_split_line_color" format="color"/>
+        <attr name="pw_backgroundColor" format="color"/>
     </declare-styleable>
 
 ///////////////////////////////////////////////////////////////////////////////////////

@@ -9,6 +9,7 @@
             <flag name="mid" value="20"/>
             <flag name="slow" value="50"/>
         </attr>
+		<attr name="histogram_color" format="color"/>
 </declare-styleable>
 
 /////////////////////////////////////////////////////////////////////////////

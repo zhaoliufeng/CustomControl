@@ -1,8 +1,9 @@
-package me.zhaoliufeng.vehiclemanagesystem.View.UIControl;
+package me.zhaoliufeng.customviews.NumTexView;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.TextView;
 
 public class NumTextView extends TextView {
@@ -18,20 +19,21 @@ public class NumTextView extends TextView {
     }
 
     public void setGrowNum(final String numStr) {
+        ValueAnimator valueAnimator;
         try {
             int num = Integer.valueOf(numStr);
-            ValueAnimator valueAnimator = ValueAnimator.ofInt(Integer.valueOf(getText().toString()), num)
+            valueAnimator = ValueAnimator.ofInt(Integer.valueOf(getText().toString()), num)
                     .setDuration(500);
             valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
+                    Log.i("NumTextView", animation.getAnimatedValue().toString());
                     setText(animation.getAnimatedValue().toString());
                 }
             });
-            valueAnimator.start();
         } catch (NumberFormatException e) {
             float num = Float.valueOf(numStr);
-            ValueAnimator valueAnimator = ValueAnimator.ofFloat(Float.valueOf(getText().toString()), num)
+            valueAnimator = ValueAnimator.ofFloat(Float.valueOf(getText().toString()), num)
                     .setDuration(500);
             valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -39,7 +41,7 @@ public class NumTextView extends TextView {
                     setText(String.format("%.1f", animation.getAnimatedValue()));
                 }
             });
-            valueAnimator.start();
         }
+        valueAnimator.start();
     }
 }

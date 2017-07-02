@@ -1,4 +1,4 @@
-package me.zhaoliufeng.vehiclemanagesystem.View.Control.DashBoard;
+package me.zhaoliufeng.customviews.DashBoardView;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -13,7 +13,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 
-import me.zhaoliufeng.vehiclemanagesystem.R;
+import me.zhaoliufeng.customviews.R;
 
 /**
  * ，仿汽车速度仪表盘
@@ -35,7 +35,6 @@ public class DashboardView extends View {
     private int mLength2; // 刻度读数顶部的相对圆弧的长度
     private int mPLRadius; // 指针长半径
     private int mPSRadius; // 指针短半径
-	private int bgColor; //背景颜色
 
     private int mPadding;
     private float mCenterX, mCenterY; // 圆心坐标
@@ -44,7 +43,8 @@ public class DashboardView extends View {
     private RectF mRectFInnerArc;
     private Rect mRectText;
     private String[] mTexts;
-
+    private int mColor1 = 0xFFECEFF1;
+    private int mColor2 = 0xFF455A64;
     private int viewStyle;
     private final static int BigView = 0;
 
@@ -56,7 +56,6 @@ public class DashboardView extends View {
         this(context, attrs, 0);
         TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.DashboardView);
         viewStyle = arr.getInt(R.styleable.DashboardView_DashBoardViewStyle, 0);
-		bgColor = arr.getColor(R.styleable.DashboardView_BackGroundColor, 0xffffffff );
     }
 
     public DashboardView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -138,14 +137,12 @@ public class DashboardView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
-        canvas.drawColor(bgColor);
         /**
          * 画圆弧
          */
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(mStrokeWidth);
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_light));
+        mPaint.setColor(mColor1);
         canvas.drawArc(mRectFArc, mStartAngle, mSweepAngle, false, mPaint);
 
         /**
@@ -248,11 +245,11 @@ public class DashboardView extends View {
          * 画指针
          */
         float θ = mStartAngle + mSweepAngle * (mVelocity - mMin) / (mMax - mMin); // 指针与水平线夹角
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_dark_light));
+        mPaint.setColor(mColor2);
         int r = mRadius / 8;
         canvas.drawCircle(mCenterX, mCenterY, r, mPaint);
         mPaint.setStrokeWidth(r / 3);
-        mPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_light));
+        mPaint.setColor(mColor1);
         float[] p1 = getCoordinatePoint(mPLRadius, θ);
         canvas.drawLine(p1[0], p1[1], mCenterX, mCenterY, mPaint);
 
@@ -264,7 +261,7 @@ public class DashboardView extends View {
          * 画实时度数值
          */
         if (viewStyle == BigView){
-            mPaint.setColor(ContextCompat.getColor(getContext(), R.color.color_light));
+            mPaint.setColor(mColor1);
             mPaint.setStrokeWidth(dp2px(2));
             int xOffset = dp2px(22);
             if (mVelocity >= 100) {

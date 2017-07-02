@@ -1,19 +1,25 @@
-package me.zhaoliufeng.vehiclemanagesystem.View.Control;
+package me.zhaoliufeng.customviews.DrawerPlusLayout;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.ViewGroup;
 
 import com.zhy.android.percent.support.PercentFrameLayout;
 
-import me.zhaoliufeng.vehiclemanagesystem.R;
+import me.zhaoliufeng.customviews.R;
 
 
+/**
+ * 自定义侧拉控件 添加位置偏移 可做出抽拉样式的抽屉菜单
+ * 注意使用本控件推荐集成 PercentFrameLayout 百分比布局
+ * dependencies {
+        compile 'com.android.support:percent:22.2.0'
+    }
+ */
 public class DrawerPlusLayout extends PercentFrameLayout implements View.OnTouchListener, View.OnClickListener {
 
     //左侧菜单偏移距离
@@ -23,15 +29,15 @@ public class DrawerPlusLayout extends PercentFrameLayout implements View.OnTouch
     //左侧菜单顶部向下偏移量
     private float leftMenuTopOffsetDistance;
     //侧拉布局
-    private FrameLayout leftContentLayout;
+    private ViewGroup leftContentLayout;
     //中间视图
-    private FrameLayout midLayout;
+    private ViewGroup midLayout;
     //蒙板视图
     private View maskView;
     //菜单位移上一次的x轴位置
     float lastX;
     //菜单打开监听
-    private DrawerStatusListener drawerStatusListener;
+    private DrawerStatusListener mDrawerStatusListener;
 
     public DrawerPlusLayout(Context context) {
         super(context);
@@ -49,9 +55,9 @@ public class DrawerPlusLayout extends PercentFrameLayout implements View.OnTouch
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        leftContentLayout = (FrameLayout)getChildAt(1);
+        leftContentLayout = (ViewGroup) getChildAt(1);
         maskView = new View(getContext());
-        midLayout = (FrameLayout)getChildAt(0);
+        midLayout = (ViewGroup)getChildAt(0);
 
         leftContentLayout.setOnTouchListener(this);
 
@@ -129,13 +135,15 @@ public class DrawerPlusLayout extends PercentFrameLayout implements View.OnTouch
                     ObjectAnimator.ofFloat(view, "x", view.getX(), 0)
                             .setDuration(100)
                             .start();
-                    drawerStatusListener.onDrawerStatusChange(true);
+                    if (mDrawerStatusListener != null)
+                        mDrawerStatusListener.onDrawerStatusChange(true);
                 }else{
                     maskView.setAlpha(0.0f);
                     ObjectAnimator.ofFloat(view, "x", view.getX(), -view.getWidth() + leftMenuOffsetDistance)
                             .setDuration(100)
                             .start();
-                    drawerStatusListener.onDrawerStatusChange(false);
+                    if (mDrawerStatusListener != null)
+                        mDrawerStatusListener.onDrawerStatusChange(false);
                 }
                 break;
         }
@@ -149,11 +157,12 @@ public class DrawerPlusLayout extends PercentFrameLayout implements View.OnTouch
         ObjectAnimator.ofFloat(leftContentLayout, "x", leftContentLayout.getX(), - leftContentLayout.getWidth() + leftMenuOffsetDistance)
                 .setDuration(200)
                 .start();
-        drawerStatusListener.onDrawerStatusChange(false);
+        if (mDrawerStatusListener != null)
+            mDrawerStatusListener.onDrawerStatusChange(false);
     }
 
-    public void setDrawerStatusListener(DrawerStatusListener drawerStatusListener){
-        this.drawerStatusListener = drawerStatusListener;
+    public void setDrawerStatusListener(DrawerStatusListener mDrawerStatusListener){
+        this.mDrawerStatusListener = mDrawerStatusListener;
     }
 
     public interface DrawerStatusListener{
